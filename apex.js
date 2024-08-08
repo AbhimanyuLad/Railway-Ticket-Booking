@@ -19,12 +19,13 @@ const flash = require("connect-flash");
 
 
 //------------------------------------------------------------------
+const atlasUrl = process.env.ATLASDB_URL;
 main()
 .then(() => {console.log("connected to DB");})
 .catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/login');
+  await mongoose.connect(atlasUrl);
 }
 //------------------------------------------------------------------
 
