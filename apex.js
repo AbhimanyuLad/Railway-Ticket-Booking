@@ -8,13 +8,12 @@ const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
-const session = require('express-session')
 const cookieParser = require("cookie-parser");
 const createLoginAccountRouter =  require("./routes/create.js");
 const adminLogin = require("./routes/admin.js");
 const forgotPassword = require("./routes/forgetPassword.js");
 const methodOverride = require("method-override");
-const flash = require("connect-flash");
+
 
 
 
