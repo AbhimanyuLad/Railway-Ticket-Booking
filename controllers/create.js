@@ -20,15 +20,15 @@ module.exports.createAccount = (req, res) => {
 
 module.exports.saveCredentials = async (req, res)  => {
     const { account } = req.body;
-    const { firstname, surname, username, mobileNum, personalEmailId, alternateEmail, state, country, addressone, addresstwo,  password, pin } = account;
-    const existingUser = await User.findOne({email});
+    const { firstname, surname, username, mobileNum, personalEmailId, state, country, addressone, addresstwo,  password, pin } = account;
+    const existingUser = await User.findOne({personalEmailId});
     if(existingUser){
         throw new ExpressError(401, "User already exists with this email");
     }
     const salt = await bcrypt.genSaltSync(10);
     const hash = await bcrypt.hash(password, salt);
     const cred = new User({
-        firstname,surname,username,mobileNum,personalEmailId,alternateEmail,state,country,addressone,addresstwo,pin,password: hash
+        firstname,surname,username,mobileNum,personalEmailId,state,country,addressone,addresstwo,pin,password: hash
     });
 
     const alreadyHaveUser = await User.findOne({username, personalEmailId});
