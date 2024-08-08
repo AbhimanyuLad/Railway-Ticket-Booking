@@ -1,0 +1,67 @@
+<% layout("/layout/boilerplate") -%>
+
+
+<style>
+    .container{
+        display: flex;
+        flex-wrap: wrap;
+        /* margin: 1rem 3rem 1rem 3rem; */
+    }
+    .icon-group {
+        margin: 1rem 3rem 1rem 3rem;
+    }
+    .container{
+        display: flex;
+        align-items: center;
+        align-content: center;
+    }
+    .backImage{
+        width: 100%;
+        height: 500px; /* Set a height for the element */
+        margin-left: 0;/* Remove any default margin */
+        background-image: url("/images/Logo1.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+</style>
+
+
+
+    <div class="backImage">
+        <div class="container">
+            <div class="icon-group">
+                <a href="/admin/controller/stationEdit"><i class="fa-solid fa-flag"></i></a>
+            </div>
+
+            <div class="icon-group">
+                <a href="/admin/controller/editlisting"><i class="fa-solid fa-book"></i></a>
+            </div>
+
+            <div class="icon-group">
+                <a href="/admin/controller/list"><i class="fa-solid fa-list"></i></a>
+            </div>
+            
+            <div class="icon-group">
+                <a href="/admin/controller/checkOut"><i class="fa-solid fa-check"></i></a>
+            </div>
+
+            <div class="icon-group">
+                <a href="/admin/controller/deleteAcc"><i class="fa-solid fa-user-minus"></i></a>
+            </div>
+
+            <div class="icon-group">
+                <a href="/admin/controller/deleteTrainSchedule"><i class="fa-solid fa-calendar-minus"></i></a>
+            </div>
+        </div>
+
+
+        <div class="container">
+            <h3>Welcome Admin! What do you want to Edit</h3>
+        </div>
+
+        </div>
+
+
+
+

@@ -1,0 +1,109 @@
+<% layout("/layout/boilerplate") -%>
+
+
+
+
+
+    <h3>Ticket</h3>
+    <div class="ticket">
+        <table class="table table-striped" style="border: 1px solid black;">
+            <thead>
+                <tr>
+                    <th>sr.No</th>
+                    <th>Date</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Arrival Time</th>
+                    <th>Departure Time</th>
+                    <th>Train Name</th>
+                    <th>Train Number</th>
+                    <th>Passangers</th>
+                    <th>Cancellation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(let i = 0; i < userOne.ticket.length; i++) { %>
+                    <tr>
+                        <td><%= i + 1 %></td>
+                        <td><%= userOne.ticket[i].date %></td>
+                        <td><%= userOne.ticket[i].from %></td>
+                        <td><%= userOne.ticket[i].to %></td>
+                        <td><%= userOne.ticket[i].arrTime %></td>
+                        <td><%= userOne.ticket[i].deparTime %></td>
+                        <td><%= userOne.ticket[i].trainDetails.trainName %></td>
+                        <td><%= userOne.ticket[i].trainDetails.trainNum %></td>
+                        <td><%= userOne.ticket[i].passangers %></td>
+                        <td><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-ticket-id="<%= userOne.ticket[i]._id %>" data-ticket-date="<%=  userOne.ticket[i].date %>" data-train-id="<%= userOne.ticket[i] %>">
+                            Cancellation
+                          </button></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Cancallation</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <b>Are you sure you want to cancel the ticket?</b>
+            </div>
+            <div class="modal-footer">
+            <button id="close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" id="confirmCancellation">Confirm Cancallation</button>
+            
+            </div>
+        </div>
+        </div>
+    </div>
+   
+
+<script>
+    const exampleModal = document.getElementById("exampleModal");
+    exampleModal.addEventListener("show.bs.modal", event => {
+        // Button that triggered the modal
+        const button = event.relatedTarget;
+        // Extract info from data-* attributes
+        const ticketId = button.getAttribute("data-ticket-id");
+        const date = button.getAttribute("data-ticket-date");
+        // If needed, update the modal's content.
+        const confirmButton = document.getElementById("confirmCancellation");
+        confirmButton.setAttribute("data-ticket-id", ticketId);
+        confirmButton.setAttribute("data-ticket-date", date);
+    });
+
+    const confirmCancellation = document.getElementById("confirmCancellation");
+    confirmCancellation.addEventListener('click', (event) => {
+        event.preventDefault();
+        const ticketId = document.getElementById("confirmCancellation").getAttribute("data-ticket-id");
+        const date = document.getElementById("confirmCancellation").getAttribute("data-ticket-date");
+        // Use the ticketId to cancel the ticket, e.g., send a request to the server
+        console.log('Cancelling ticket with ID:', ticketId);
+        console.log(date);
+
+        fetch("/account/login/showTicket", {
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ticketId, date})
+        })
+
+        .then(response => response.json())
+        .then(data => {
+            window.location.href = data.redirectUrl;
+        })
+
+    });
+
+</script>
+
+
+
+
+

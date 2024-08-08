@@ -1,0 +1,73 @@
+<% layout("/layout/boilerplate.ejs") -%>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Push a new state to the history stack
+      history.pushState(null, null, window.location.href);
+      
+      // Prevent the user from navigating back
+      window.addEventListener('popstate', function(event) {
+        history.pushState(null, null, window.location.href);
+        // Optionally redirect to Page B or show an alert
+        alert("You can't go back to the previous page.");
+      });
+    });
+  </script>
+
+
+    <div class="backgroundAdminLoginImg">
+        <div class="row">
+            <form id="adminLoginForm" method="POST" action="/admin" novalidate class="card offset-md-4 col-3 needs-validation">
+                <h3 class="card-title mt-3" style="text-align: center;">Welcome back!</h3>
+                <div class="adminLogin mb-3">
+                    <label for="id" class="form-label">ID</label>
+                    <input type="text" class="form-control" name="id" required >
+                    <div class="invalid-feedback">Please enter valid ID</div>
+                </div>
+
+                <div class="adminLogin mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" name="username" required >
+                    <div class="invalid-feedback">Please enter valid email</div>
+                </div>
+                
+                <div class="adminLogin mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" required>
+                    <div class="invalid-feedback">Please enter password</div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="container mt-3 mb-3">
+                    <div class="d-inline">
+                        <a href="/admin/create" class="d-inline">Create Here</a>
+                    </div>
+                </div>
+            </form>
+
+            </div>
+        </div>
+    </div>
+   
+
+<style>
+    .backgroundAdminLoginImg{
+        flex-wrap: wrap;
+        align-items: center;
+        align-content: center;
+    }
+
+    .adminLoginForm{
+        align-self: center;
+    }
+
+    .card{
+        border: solid black;
+        width: 20rem;
+    }
+    .adminLogin{
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+</style>

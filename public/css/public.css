@@ -1,0 +1,296 @@
+*{
+    padding: 0;
+}
+
+body {
+    display: block;
+    margin: 0; /* Reset default margin */
+    padding: 0; /* Reset default padding */
+    width: 100%; /* Ensure body takes the full width */
+    min-height: 100vh; /* Ensure body stretches to at least the viewport height */
+    font-family: Arial, sans-serif; /* Apply a default font */
+    background-color: #fff; /* Apply a default background color */
+}
+
+
+
+/* create form */
+.form-control {
+    width: 20px;
+}
+
+.rail{
+    height: 20rem;
+    width: 30rem;
+}
+
+.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+}
+
+.backgroundHomeImage {
+    width: 100%;
+    height: 500px; /* Set a height for the element */
+    margin-left: 0;/* Remove any default margin */
+    background-image: url("/images/103791968.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.backgroundAdminCreateImage{
+    width: 100%;
+    height: 500px; /* Set a height for the element */
+    margin-left: 0;/* Remove any default margin */
+    background-image: url("/images/main-qimg-8c267775c37777ac9830549a1ba2a3b1.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.backgroundHomeImage2 {
+    width: 100%;
+    height: 500px; /* Set a height for the element */
+    margin-left: 0;/* Remove any default margin */
+    background-image: url("/images/IMG_20230930_WA0044.avif");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.backgroundAdminLoginImg{
+    width: 100%;
+    height: 500px; /* Set a height for the element */
+    margin-left: 0;/* Remove any default margin */
+    background-image: url("/images/admin2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+/* footer */
+.f-info-links a  {
+    text-decoration: none;
+    color: #222222;
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+    color: #222222;
+}
+
+
+.f-info-links, .f-info-socials, .f -info-brand{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.f-info-socials i {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+}
+
+
+
+.f-info {
+    text-align: center;
+    height: 8rem;
+    background-color: #ebebee;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+}
+
+
+/* Card */
+.backgroundHomeImage{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+}
+
+#loginform{
+    width: 23rem;
+    border: solid black;
+    align-self: center;
+    align-items: center;
+    align-content: center;
+}
+
+.component{
+    width: 18rem;
+}
+
+
+@media(max-width: 480px){
+    .component{
+        padding-left: 1rem;
+        padding-right: 1rem;
+        width: 18rem;
+    }
+    .time{
+        display: block;
+    }
+    .dropdown-content{
+        margin-left: 5rem;
+    }
+    .collapse{
+        display: flex;
+        height: 5rem;
+    }
+    .card-body{
+        margin-left: 1rem;
+    }
+   .card-title{
+    align-self: center;
+    margin-left: 4rem;
+   }
+   .form-group{
+    padding-right: 2rem;
+   }
+   .trainUpload{
+    display: block;
+    align-items: center;
+    align-content: center;
+    
+   }
+
+  #trainUpload{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .newTrain{
+    width: 10rem;
+    margin-right: 2rem;
+}
+
+.ntc1{
+    display: block;
+    width: 15rem;
+    flex-wrap: wrap;
+    padding-left: 3rem;
+    padding-top: 2rem;
+}
+
+#uploadB{
+    align-self: center;
+}
+
+}
+
+.ntc1{
+    padding-left: 2rem;
+    padding-top: 2rem;
+}
+#uploadB{
+    align-self: center;
+}
+
+
+
+
+
+.chartOfTrain {
+    background-color:aliceblue;
+}
+
+#trainUpload {
+    background-color: aliceblue;
+}
+
+
+
+
+
+.centered-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-body {
+    text-align: center;
+  }
+
+  .error-message {
+    color: red;
+    margin-left: 10px;
+    white-space: nowrap;
+  }
+
+
+
+
+
+
+  #remainingContent {
+    display: none;
+}
+
+
+
+
+
+
+.inputs {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.stationFrom{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.form-group{
+    margin-left: 3rem;
+}
+
+
+.resForm {
+    margin-left: 5rem;
+}
+
+
+
+
+.small-warning-icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+
+

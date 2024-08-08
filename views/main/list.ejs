@@ -1,0 +1,412 @@
+<% layout("/layout/boilerplate") -%>
+
+<% if(userRoles !== 'admin') { %>
+<div id="flashMsg" class="alert alert-success alert-dismissible fade show col-6 offset-3 " role="alert">
+    LoggedIn Successfully
+    <button  type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<% } %>
+
+<% if(status === "true") {  %>
+<div id="flashConfirm" class="alert alert-success alert-dismissible fade show col-6 offset-3 " role="alert">
+    Booking Confirmed.
+    <button id="autoCloseButton" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<% } %>
+
+
+
+<!-- ---------------------------------------------------------------------------------------------------------- -->
+<!--Search Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form id="searchForm" method="POST" action="" novalidate class="needs-validation">
+                <div class="search mt-3 mb-3" >
+                    <div class="searchContent">
+                        <label class="form-label mb-3">From</label>
+                        <select class="form-control"  id="searchFrom" name="searchFrom" required>
+                            <option value="" selected disabled>Select an option</option>
+                            <%  for (let i of currentStations) {  %>
+                                    <option><%= i %></option>
+                            <% } %>
+                        </select>
+                        <div id="errorSearchFrom" class="invalid-feedback"></div>
+                    </div>
+
+                    <div class="searchContent mt-3 mb-3">
+                        <label class="form-label">To</label>
+                        <select class="form-control" id="searchTo" name="searchTo" required>
+                            <option value="" selected disabled>Select an option</option>
+                            <%  for (let i of currentStations) {  %>
+                                <option><%= i %></option>
+                            <% } %>
+                        </select>
+                        <div id="errorSearchTo" class="invalid-feedback"></div>
+                    </div>
+                    
+                </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="submitSearch" type="button" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+      </div>
+    </div>
+  </div>
+
+
+
+<!-- ----------------------------------------------------------------------------------- -->
+    <div class="row">
+    <div class="chartOfTrain mt-3">
+        <table class="table table-striped" style="border: 1px solid black;">
+            <div class="container mt-5 mb-3">
+                <div class="d-inline-flex">
+                    <button  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+                </div>
+            </div>
+
+            <thead>
+                <tr>
+                    <th>Train no.</th>
+                    <th>Train Name</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Arrival Time</th>
+                    <th>Departure Time</th>
+                    <th>Arrival Date</th>
+                    <th>Availability</th>
+                    
+                    <% if (userRoles === 'admin') { %>
+                        <th>Delete Train</th>
+                    <% } %>
+                </tr>
+            </thead>
+            <tbody id="trainList">
+                <% for(let train of listings) { %>
+                    <tr>
+                        <td><%= train.trainNum %></td>
+                        <td><%= train.trainName %></td>
+                        <td><%= train.from %></td>
+                        <td><%= train.to %></td>
+                        <td><%= train.arrivalTime %></td>
+                        <td><%= train.departureTime %></td>
+                        <td>All days</td>
+                        <td><button id="available" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#availability" data-id="<%= train._id %>">Check For Dates</button></td>
+                        <% if (userRoles === "admin") { %>
+                            <td><form action="/admin/controller/list/<%= train._id %>?_method=DELETE" method="POST" style="display:inline;">
+                                <button class="btn btn-dark" type="submit">Delete</button>
+                            </form></td>
+                        <% } %>
+                    </tr>
+                    <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="availability" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Booking Page</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+                    <symbol id="check-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                    </symbol>
+                    <symbol id="info-fill" viewBox="0 0 16 16">
+                      <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                    </symbol>
+                    <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
+                      <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </symbol>
+                </svg>
+
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <svg class="bi flex-shrink-0 me-2 small-warning-icon" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                    <div>
+                        Timings are shown in a <b>24-hour </b> clock.
+                    </div>
+                </div>
+                <form id="reservationForm" method="POST" action="/account/list/reservation" novalidate class="card centered-modal-content needs-validation mt-3 mb-3" style="background-color: aliceblue;">
+                    <h4 class="mt-3">Passengers Info</h4>
+                    <!-- <div class="container row"> -->
+                        <div class="resForm col-md-3 mb-3" >
+                            <label for="date" class="form-label">Date</label>
+                            <input id="date" type="date" class="form-control" name="date" placeholder="DD-MM-YYYY" style="width: 13rem;" required>
+                            <div class="invalid-feedback error-message">Please pick the date from the calender</div>
+                        </div>
+                    <!-- </div> -->
+                    <button class="btn btn-primary mb-3">Check Availability</button>
+                </form>
+            
+            <!-- Remaining content to enable -->
+                <div id="remainingContent" class="mt-3">
+                    <form id="bookingform" method="POST" action="" novalidate class="card centered-modal-content needs-validation" style="background-color: aliceblue;">
+                        <h4 class="mt-3">Booking Page</h4>
+
+                            <div class="resForm col-md-3 mb-3">
+                                <label for="from" class="form-label">From</label>
+                                <select id="fromBar" class="form-control" required>
+                                    <option value="" selected disabled>Select an option</option>
+                                </select>
+                                <div id="errorMessage" class="invalid-feedback error-message">Please pick From</div>
+                            </div>
+
+                            <div class="resForm col-md-3 mb-3">
+                                <label for="to" class="form-label">To</label>
+                                <select id="toBar" class="form-control" required>
+                                    <option value="" selected disabled>Select an option</option>
+                                </select>
+                                <div id="errorMessage" class="invalid-feedback error-message">Please pick To</div>
+                            </div>
+                        <button id="button" class="btn btn-danger mb-3">Book now</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("reservationForm");
+      const dateInput = document.getElementById("date");
+      const seats = document.getElementById("numberOfSeats");
+      const remainingContent = document.getElementById("remainingContent");
+      const successMessage = document.getElementById("successMessage");
+      
+      let trainId; let stations; let date = dateInput.value;
+
+      // Disable past dates
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.setAttribute('min', today);
+
+   
+      const submitSearch = document.getElementById("submitSearch");
+        submitSearch.addEventListener("click", (event) => {
+            event.preventDefault();
+            const searchFrom = document.getElementById("searchFrom");
+            const searchTo = document.getElementById("searchTo");
+            const errorSearchFrom = document.getElementById("errorSearchFrom");
+            const errorSearchTo = document.getElementById("errorSearchTo");
+
+            if (searchFrom.value === searchTo.value) {
+                errorSearchFrom.textContent = "Invalid Station name";
+                errorSearchTo.textContent = "Invalid Station name";
+                errorSearchFrom.style.display = "block";
+                errorSearchTo.style.display = "block";
+                event.preventDefault();
+            } else {
+                const searchF = searchFrom.value;
+                const searchT = searchTo.value;
+
+                fetch("/account/login/list/search", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ searchF, searchT })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                  
+                    const trainList = document.getElementById("trainList");
+                    trainList.innerHTML = "";
+                    console.log(data.length);
+                    const trainsToShow = data.length > 0 ? data : JSON.parse('<%- JSON.stringify(listings) %>');
+                    console.log(trainsToShow);
+                    trainsToShow.forEach(train => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${train.trainNum}</td>
+                            <td>${train.trainName}</td>
+                            <td>${train.from}</td>
+                            <td>${train.to}</td>
+                            <td>${train.arrivalTime}</td>
+                            <td>${train.departureTime}</td>
+                            <td>All days</td>
+                            <td>
+                                <button id="available" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#availability" data-id="${train._id}">Check For Dates</button>
+                            </td>
+                        `;
+                        trainList.appendChild(row);
+                    });
+
+                    const modalElement = document.getElementById("exampleModal");
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    modalInstance.hide();
+                });
+            }
+        });
+   
+
+
+
+
+      // When modal is shown, set the data-id to the form
+      const modal = document.getElementById('availability');
+      modal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget; // Button that triggered the modal
+        const id = button.getAttribute('data-id'); // Extract info from data-* attributes
+        form.setAttribute('data-id', id); // Set the ID on the form
+
+        // Clear previous options except the default one
+       const to = document.getElementById("toBar");
+        const from = document.getElementById("fromBar");
+        while (from.options.length > 1) {
+            from.remove(1);
+        }
+        while (to.options.length > 1) {
+            to.remove(1);
+        }
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault(); // Prevent the default form submission
+        const dateValue = dateInput.value; // Get the value of the date input
+        const id = form.getAttribute("data-id"); // Get the data-id attribute from the form
+        console.log("Submitting form with ID:", id, "and date:", dateValue);
+
+        fetch("/account/list/reservation", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ id, date: dateValue })
+        })
+        .then(response => response.json())
+        .then(data => {
+            
+            // Enable remaining page content
+            document.getElementById('remainingContent').style.display = 'block';
+            
+            const to = document.getElementById("toBar");
+            const from = document.getElementById("fromBar");
+            console.log("Success:", data);
+          // Handle success response (e.g., show a success message, close modal, etc.)
+            trainId = data.id;
+            console.log(data.array);
+            stations = data.array;
+            if (from.options.length === 1 && to.options.length === 1) {
+                stations.forEach(station => {
+                    let optionFrom = document.createElement('option');
+                    optionFrom.value = station;
+                    optionFrom.textContent = station;
+                    from.appendChild(optionFrom);
+
+                    let optionTo = document.createElement('option');
+                    optionTo.value = station;
+                    optionTo.textContent = station;
+                    to.appendChild(optionTo);
+                });
+            }
+
+          
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          // Handle error response (e.g., show an error message)
+        });
+      });
+
+      modal.addEventListener('hide.bs.modal', function () {
+                // Reset form
+            form.reset();
+                // Hide remaining page content
+            remainingContent.style.display = 'none';
+        });
+
+
+        const submission = document.getElementById("bookingform");
+    submission.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const to = document.getElementById("toBar");
+        const from = document.getElementById("fromBar");
+        const f = stations.indexOf(from.value);
+        const t = stations.indexOf(to.value);
+
+        try {
+            if (f >= t) {
+                throw new Error("Please Initialize correct destination");
+            }
+
+            const data = {
+                date: dateInput.value,
+                f: f,
+                t: t,
+                from: from.value,
+                to: to.value,
+                trainId: trainId,
+            };
+
+            fetch("/account/list/reservation/confirmbooking", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log(result.seats);
+                if (result.success) {
+                    const redirectUrl = new URL(result.redirectUrl, window.location.origin);
+                    window.location.href = redirectUrl.toString();
+                   
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        } catch (error) {
+            const messageElement = document.getElementById("errorMessage");
+            messageElement.textContent = "Please Initialize correct destination!";
+            messageElement.style.display = "block";
+        }
+    });
+
+    const flashConfirm = document.getElementById("flashConfirm");
+    if (flashConfirm) {
+        // Automatically close the alert after 5 seconds (5000 milliseconds)
+        setTimeout(() => {
+            document.getElementById("autoCloseButton").click();
+        }, 5000);
+
+        flashConfirm.addEventListener("closed.bs.alert", () => {
+        window.location.href = "/account/login/list?status=false";
+        });
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('availability');
+      const modalInstance = bootstrap.Modal.getInstance(modal); // Get Bootstrap modal instance
+      modalInstance.hide();
+    }
+    
+});
+
+
+</script>
+
+
+

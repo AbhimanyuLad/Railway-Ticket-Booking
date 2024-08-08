@@ -1,0 +1,294 @@
+<% layout("/layout/boilerplate") -%>
+
+
+
+    <h3 class="mt-5">Train Editing Page</h3>
+    <form id="trainUpload" method="POST"  action=""  novalidate class="card needs-validation mt-5 mb-3">
+        <div class="ntc1 row mt-3">
+            <div class="newTrain  col-md-3 mb-3">
+                <label for="trainNum" class="form-label">Train Number</label>
+                <input id="trainNum" placeholder="Train Number" type="number" class="form-control" max="99999" required>
+                <div class="invalid-feedback">Please enter valid number</div>
+            </div>
+                
+            <div class="newTrain  col-md-3 mb-3">
+                <label for="trainName" class="form-label">Train Name</label>
+                <input id="trainName" placeholder="Train Name" type="String" class="form-control" required>
+                <div class="invalid-feedback">Please enter valid number</div>
+            </div>
+
+            <div class="newTrain  col-md-3 mb-3">
+                <label for="trainSeats" class="form-label">Total Train Seats</label>
+                <input id="trainSeats" placeholder="Total Train Seats" type="number" class="form-control" required>
+                <div class="invalid-feedback">Please enter valid number</div>
+            </div>
+        </div>
+
+        <div class="row ntc1">
+            <div class="col-md-3 mb-3">
+                <label for="from" class="form-label">From</label>
+                <select id="from" class="form-control" name="from" required>
+                    <option value="" selected disabled>Select an option</option>
+                    <!-- <option value="Andheri">Andheri</option> -->
+                    <% for(let StList of stations) { %>
+                        <option><%= StList.currentSt %></option>
+                    <% } %>
+                </select>
+                <div class="invalid-feedback">Please enter valid Arrival</div>
+            </div>
+        
+        
+
+        <div class="col-md-3 mb-3">
+            <label for="trainNum" class="form-label">To</label>
+            <select id="to" class="form-control" name="to" required>
+            <option value="" selected disabled>Select an option</option>
+            <% for(let StList of stations) { %>
+                <option><%= StList.currentSt %></option>
+            <% } %>
+            </select>
+            <div class="invalid-feedback">Please enter valid destination</div>
+        </div>
+
+
+            <div class="col-md-3 mb-3">
+                 <label for="trainArrT" class="form-label">Arrival Time</label>
+                <input id="at" placeholder="Arrival Time" type="time" class="form-control" style="width: 10rem;" required>
+                <div class="invalid-feedback">Please enter valid number</div>
+            </div>
+            
+            <div class="col-md-3 mb-3">
+                <label for="trainDepT" class="form-label">Departure Time</label>
+                <input id="dt" placeholder="Departure Time" type="time" class="form-control" style="width: 10rem;" required>
+                <div class="invalid-feedback">Please enter valid number</div>
+            </div>
+        </div>
+
+
+            <div class="row ntc1 selection-container">
+                <!-- Selection Bar -->
+                <div class="form-group col-md-3">
+                    <label class="mb-1" for="selectionBar">Train Halts:</label>
+                    <select class="form-control" id="selectionBar" multiple required>
+                        <% for(let StList of stations) { %>
+                            <option><%= StList.currentSt %></option>
+                        <% } %>
+                    </select>
+                </div>
+                    <!-- Button to Add & Delete Selection -->
+                <div class="selectionButton row">
+                    <button id="addSelection"  class="btn btn-primary mt-3 mb-3">Add Selections</button>
+                    <button id="deleteSelection"  class="btn btn-dark mt-3 mb-3">Delete Selection</button>
+                </div>
+            </div>
+
+            <style>
+                .selectionButton {
+                    width: 9rem;
+                    display: flex;
+                    align-items: center;
+                }
+            </style>
+
+
+        <div id="displayArea" class="ntc1 mt-4">
+            <h4>Halting Stations</h4>
+            <div id="selectedList" class="list-group" style="width: 40rem;">
+              <!-- Selected items will be appended here -->
+            </div>
+        </div>
+
+        <div id="selectedStation" class="ntc1 row"></div>
+
+        <button id="uploadB" class="btn btn-primary mt-3 mb-3" style="width: 7rem;">Upload</button>
+    </form>
+
+
+
+
+<script>
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const selectionBar = document.getElementById("selectionBar"); // selectbar
+    const addSelectionButton = document.getElementById("addSelection"); // button
+    const deleteSelectionButton = document.getElementById("deleteSelection");
+    const selectedList = document.getElementById("selectedList"); // selected table
+    const button = document.getElementById("uploadB");
+    const form = document.getElementById("trainUpload");
+   
+    let selectedOptions = [];
+    let timer = [];
+    
+    setTimeout(() => {
+        alert("Please give timings according to Railway clock format");
+    }, 5000);
+   
+
+    addSelectionButton.addEventListener("click", (event) => {
+        event.preventDefault();
+       console.log(selectedOptions);
+       const stationBar = document.getElementById("selectedStation");
+
+       for (let i = 0; i < selectionBar.options.length; i++) {
+        const option = selectionBar.options[i];
+        if (option.selected) {
+            let pValue = option.value;
+            selectedOptions.push(pValue);
+
+            let time = promptForTime();
+            console.log(typeof(time))
+
+            if (time) {
+            console.log(`Entered time: ${time.hours}:${time.minutes}`);
+            }
+            // Create a new div for the row
+            const newRowDiv = document.createElement("div");
+            newRowDiv.classList.add("row", "mb-3");
+
+            // Create a div for the station input and label
+            const stationDiv = document.createElement("div");
+            stationDiv.classList.add("col-md-5");
+
+            const divLabel = document.createElement("label");
+            divLabel.textContent = "Station";
+            divLabel.setAttribute("for", "stationInput");
+
+            const newInput = document.createElement("input");
+            newInput.value = option.value;
+            newInput.type = "text";
+            newInput.readOnly = true;
+            newInput.classList.add("form-control");
+
+            stationDiv.appendChild(divLabel);
+            stationDiv.appendChild(newInput);
+
+            // Create a div for the time input and label
+            const timeDiv = document.createElement("div");
+            timeDiv.classList.add("col-md-5");
+
+            const divLabel2 = document.createElement("label");
+            divLabel2.textContent = "Time";
+            divLabel2.setAttribute("for", "timeInput");
+
+            const newInput2 = document.createElement("input");
+            newInput2.readOnly = true;
+            newInput2.type = "text";
+            newInput2.classList.add("form-control");
+            newInput2.required = true;
+
+            timeDiv.appendChild(divLabel2);
+            timeDiv.appendChild(newInput2);
+
+            // Append stationDiv and timeDiv to newRowDiv
+            newRowDiv.appendChild(stationDiv);
+            newRowDiv.appendChild(timeDiv);
+
+            // Append newRowDiv to the container in the DOM
+            stationBar.appendChild(newRowDiv);
+            newInput2.value = time.hours+":" +time.minutes;
+            timer.push(time);
+        }
+    }
+
+    console.log(timer);
+
+    updateDisplayedList();
+});
+
+deleteSelectionButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    let size = selectedOptions.length;
+    if (size === 0) {
+        return;
+    }
+    selectedOptions.pop();
+    timer.pop();
+
+    // Remove the last child from the stationBar
+    const stationBar = document.getElementById("selectedStation");
+    if (stationBar.lastChild) {
+        stationBar.removeChild(stationBar.lastChild);
+    }
+
+    updateDisplayedList();
+});
+
+    function updateDisplayedList() {
+        const selectedList = document.getElementById("selectedList");
+        selectedList.textContent = "Selected Options: " + selectedOptions.join(", ");
+    }
+
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const trainNum = document.getElementById("trainNum");
+        const trainName = document.getElementById("trainName");
+        const trainSeats = document.getElementById("trainSeats");
+        const arrivalTime = document.getElementById("at");
+        const departureTime = document.getElementById("dt");
+        const from = document.getElementById("from");
+        const to = document.getElementById("to");
+
+
+        const trainDetails = {
+            trainNum: trainNum.value,
+            trainName:trainName.value,
+            trainSeats:trainSeats.value,
+            from:from.value,
+            to:to.value,
+            arrivalTime:arrivalTime.value,
+            departureTime:departureTime.value,
+            selectedOptions:selectedOptions,
+            timer: timer,
+        }
+        console.log(trainDetails.trainName, trainDetails.trainNum, trainDetails.from, trainDetails.to,trainDetails.arrivalTime,trainDetails.departureTime, selectedOptions, timer);
+        fetch("/admin/controller/editlisting", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(trainDetails)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Success:", data);
+            location.reload();
+            window.location.href = window.location.href;
+        
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            location.reload();
+            window.location.href = window.location.href;
+        
+            //Handle error response (e.g., show an error message)
+        });
+   })
+});
+
+function promptForTime() {
+  let input = prompt("Please enter the time (HH:MM):");
+
+  if (input === null) {
+    return promptForTime(); // User cancelled the prompt
+  }
+
+  let parts = input.split(":");
+  if (parts.length !== 2) {
+    alert("Invalid time format. Please use hh:mm.");
+    return promptForTime(); // Retry
+  }
+
+  let hours = parseInt(parts[0]);
+  let minutes = parseInt(parts[1]);
+
+  if (isNaN(hours) || isNaN(minutes) || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+    alert("Invalid time value.");
+    return promptForTime(); // Retry
+  }
+
+  return { hours, minutes };
+}
+
+
+</script>

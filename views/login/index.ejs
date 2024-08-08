@@ -1,0 +1,130 @@
+<% layout("/layout/boilerplate") -%>
+
+
+    <br>
+    <h2> Create your User Account here</h2>
+    <br>
+
+
+    <div class="row">
+        <form method="POST" id="createAcc" action="/account/create" novalidate class="card needs-validation mt-3 mb-3" style="background-color: aliceblue;">
+            <h3 class="mt-3 mb-3 offset-5">Personal Details</h3>
+            <div class="container offset-3" >
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="mobile" class="form-label">Username</label>
+                        <input name="account[username]" placeholder="Username" type="String" class="form-control" required>
+                        <div class="invalid-feedback">Please enter valid Username</div>
+                    </div>
+                
+                    <div class="col-md-3 mb-3 ">
+                        <label for="title" class="form-label">Name</label>
+                            <input name="account[firstname]" type="text" class="form-control" placeholder="Name / Username" required>
+                            <div class="valid-feedback">Looks good! </div>
+                    </div>
+                </div>
+
+                <div class="row" >
+                    <div class="col-md-3 mb-3">
+                        <label for="mobile" class="form-label">Mobile</label>
+                        <input name="account[mobileNum]" placeholder="Mobile" type="number" class="form-control" required>
+                        <div class="invalid-feedback">Please enter Mobile number</div>
+                    </div>
+
+                <div class="col-md-3 mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input name="account[personalEmailId]" placeholder="Email" type="text" class="form-control" required>
+                        <div class="invalid-feedback">Please enter valid Email address</div>
+                    </div>
+                </div>
+
+                <h3>Address</h3>
+                <div class="row" >
+                    <div class="col-md-3 mb-3">
+                        <label for="addressone" class="form-label">Address line 1</label>
+                        <input name="account[addressone]" placeholder="address" type="text" class="form-control" required>
+                        <div class="invalid-feedback">Please enter Address</div>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label for="addresstwo" class="form-label">Address line 2</label>
+                        <input name="account[addresstwo]" placeholder="address" type="text" class="form-control" required>
+                        <div class="invalid-feedback">Please enter Address</div>
+                    </div>
+                </div>
+                
+                <div class="row" >
+                    <div class="col-md-3 mb-3">
+                        <label for="state" class="form-label">State</label>
+                        <input name="account[state]" placeholder="state" type="text" class="form-control" required>
+                        <div class="invalid-feedback">Please enter valid State</div>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label for="account[country]" class="form-label">Country</label>
+                        <input name="account[country]" placeholder="country" type="text" class="form-control" required>
+                        <div class="invalid-feedback">Please enter valid Country</div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label for="pin" class="form-label">Pin</label>
+                    <input name="account[pin]" placeholder="country" type="number" class="form-control" required>
+                    <div class="invalid-feedback">Please enter valid Country code</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input id="pass" name="account[password]" placeholder="Password" type="password" class="form-control" required>
+                        <div class="invalid-feedback">Please enter valid password</div>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label for="confirmPass" class="form-label">Confirm Password</label>
+                        <input id="cofPass" name="account[confirmPass]" placeholder="Confirm Password" type="password" class="form-control" required>
+                        <div class="invalid-feedback">Please enter valid password</div>
+                    </div>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" required>
+                    <label class="form-check-label" for="flexCheckDefault">
+                    <a href="/create/terms">Terms & Conditions</a>
+                    </label>
+                    <div class="invalid-feedback">Please read the terms & Conditions and tick the box</div>
+                </div>
+                <br><br>
+                <button class="g-recaptcha btn btn-primary mb-3 offset-2"
+                    data-sitekey="6LdbqhIqAAAAAI_XNYYtqocto5HPnY3vaPX9V0U4"
+                    data-callback='onSubmit'
+                    data-action='submit'> Submit
+                </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="container mt-3">
+        <div class="d-inline">
+            <p class="d-inline">Already have Account</p>
+            <a href="/login" class="d-inline">Login Here</a>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            const pass = document.getElementById("pass");
+            const conPass = document.getElementById("cofPass");
+
+            console.log(pass.value, conPass.value);
+            if(pass.value !== conPass.value){
+                new Error("password and confirm password does not match");
+                event.preventDefault();
+            }
+
+        });
+    </script>
+
+

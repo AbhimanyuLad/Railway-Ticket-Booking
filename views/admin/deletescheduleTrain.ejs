@@ -1,0 +1,42 @@
+<% layout("/layout/boilerplate") -%>
+
+
+
+
+
+    <table class="table table-striped" style="border: 1px solid black;">
+        <thead>
+            <td>sr.No</td>
+            <td>Date</td>
+            <td>Train Number</td>
+            <td>From</td>
+            <td>To</td>
+            <td>Delete</td>
+        </thead>
+        <tbody>
+            <% for(let i = 0; i < scheduledTrain.length; i++){ %>
+                <tr>
+                    <td><%= i + 1 %></td>
+                    <td><%= scheduledTrain[i].date %></td>
+                    <td><%= scheduledTrain[i].trainDetails.trainNum %></td>
+                    <td><%= scheduledTrain[i].trainDetails.from %></td>
+                    <td><%= scheduledTrain[i].trainDetails.to %></td>
+                    <td> <form action="/admin/controller/deleteTrainSchedule" method="POST">
+                        <input type="hidden" name="deleteAcc" value="<%= scheduledTrain[i]._id %>">
+                        <button class="btn btn-dark">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+

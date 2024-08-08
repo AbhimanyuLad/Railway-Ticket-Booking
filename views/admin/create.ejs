@@ -1,0 +1,34 @@
+<% layout("/layout/boilerplate.ejs") -%>
+
+
+    <div class="backgroundAdminCreateImage">
+        <div class="row">
+            <div id="card-pos" class=" card offset-4 mt-5"  style="width: 23rem; align-content: center;" >
+                <form id="createAdmin" method="POST" action="/admin/create" novalidate class="needs-validation mb-3">
+                    <h3 class="card-title mt-3" style="text-align: center;">Welcome back!</h3>
+                    <div class="mb-3">
+                        <label for="id" class="form-label">ID</label>
+                        <input type="text" class="form-control" name="id" style="width: 18rem;" required >
+                        <div class="invalid-feedback">Please enter valid Id</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username" style="width: 18rem;" required >
+                        <div class="invalid-feedback">Please enter valid username</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" required>
+                        <div class="invalid-feedback">Please enter password</div>
+                    </div>
+
+                    <button class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.history.replaceState(null, null, window.location.href);
+    </script>

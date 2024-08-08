@@ -1,0 +1,42 @@
+<% layout("/layout/boilerplate") -%>
+
+
+
+
+
+    <table class="table table-striped" style="border: 1px solid black;">
+        <thead>
+            <td>sr.No</td>
+            <td>Account Name</td>
+            <td>Account UserName</td>
+            <td>Account Mobile Num</td>
+            <td>Delete</td>
+        </thead>
+        <tbody>
+            <% for(let i = 0; i < userAccDetails.length; i++){ %>
+                <tr>
+                    <td><%= i + 1 %></td>
+                    <td><%= userAccDetails[i].firstname %></td>
+                    <td><%= userAccDetails[i].username %></td>
+                    <td><%= userAccDetails[i].mobileNum %></td>
+                    <td> <form action="/admin/controller/deleteAcc?_method=DELETE" method="POST">
+                        <input type="hidden" name="deleteAcc" value="<%= userAccDetails[i].username %>">
+                        <button class="btn btn-dark">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+

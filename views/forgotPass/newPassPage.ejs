@@ -1,0 +1,87 @@
+<% layout("/layout/boilerplate.ejs") -%>
+
+<style>
+    .card{
+        background-color: aliceblue;
+    }
+    .cardInp{
+        width: 20rem;
+    }
+
+    .forgotPassword{
+        align-self: center;
+        align-items: center;
+        align-content: center;
+    }
+</style>
+
+
+
+    <form id="form" method="POST" action="/forgetPassword/reset"  class="needs-validation card offset-4 mt-5"  style="width: 23rem; align-content: center;" novalidate  >
+        <h5 class="forgotPassword mt-3">Please set your New Password</h5>
+        <div class="forgotPassword mt-3 mb-3">
+            <div class="cardInp mb-3">
+                <label for="newPassword" class="form-label">New Password</label>
+                <input id="newPassword" name="newPassword" placeholder="New Password" type="password" class="form-control" required>
+                <div class="invalid-feedback">Please type New Password</div>
+            </div>
+
+            <div class="cardInp">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" type="password" class="form-control" required>
+                <div id="cnfError" class="invalid-feedback"></div>
+            </div>
+        </div>
+
+        <button class="forgotPassword btn btn-primary mt-3 mb-3">Submit</button>
+    </form>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("form");
+        form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const newPassword = document.getElementById("newPassword");
+        const confirmPassword = document.getElementById("confirmPassword");
+        const confError = document.getElementById("cnfError");
+        
+        console.log(newPassword.value, confirmPassword.value)
+        if(newPassword.value !== confirmPassword.value){
+            confError.textContent = "Passwords do not match!";
+            confError.style.color = "red";
+            confError.style.display = "block";
+        } else{
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+
+            console.log(token);
+            const password = newPassword.value;
+
+            fetch("/forgetPassword/reset", {
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({password, token})
+            })
+            .then(response => response.json())
+            .then(result => {
+                window.location.href = result.redirectUrl;
+            });
+        }
+
+    })
+})
+
+
+
+
+</script>
+
+
+
+
+
+
+

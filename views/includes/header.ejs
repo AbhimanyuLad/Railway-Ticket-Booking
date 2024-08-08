@@ -1,0 +1,106 @@
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary custom-navbar-height" style="height: 5rem; padding-top: 1rem;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"> <img src="/images/Logo.jpg" width="140" height="50" class="d-inline-block align-top" alt="Logo"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span id="timer" class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="box-shadow:0 0 0 7px white ; background-color: white; z-index: 1000;">
+      <div class="navbar-nav">
+        <% if(currUser === "true") { %>
+          <% if(userRoles === 'admin') {%>
+            <a class="nav-link active" aria-current="page" href="/admin/controller">Home</a>
+          <% } else {%>
+            <a class="nav-link active" aria-current="page" href="/account/login/list">Home</a>
+          <% } %>
+        <% } %>
+        <% if(currUser === "false") { %>
+          <a  class="nav-link" href="/admin">Admin</a>
+        <% } %>
+
+      </div>
+      
+      <div class="time navbar-center">
+        <span id="datetime"></span>
+      </div>
+      <div class="navbar-nav ms-auto">
+        <%  if(currUser === "false") {%>
+            <a href="/account/login" ><button class="btn btn-danger" id="log">Login</button></a>
+        <% } else if(currUser === "true") { %>
+            <div class="dropdown">
+              <div onclick="toggleDropdown()" style="margin-left: 1rem;">
+                  <i class="user fa-solid fa-user"></i>
+              </div>
+              <div id="dropdownMenu" class="dropdown-content">
+                <form class="content" method="GET" action="/account/login/showTicket">
+                  <button class="btn btn-danger" id="logout">Tickets</button>
+                </form>
+                  <form class="content" method="POST" action="/account/logout">
+                    <button class="btn btn-danger" id="logout">Logout</button>
+                </form>
+              </div>
+          </div>
+          <% } %>
+      </div>
+    </div>
+  </div>
+</nav>
+<style>
+
+  .navbar-center{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+  }
+
+  .nav-link{
+    padding-left: 1rem;
+  }
+
+  .fa-solid{
+    margin-right: 1rem;
+    cursor: pointer;
+  }
+
+  .content{
+    margin: 1rem 1rem 1rem 1rem;
+  }
+
+  .user:hover{
+    opacity: 1;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content{
+    display: block;
+    margin-top: 1rem;
+    display: none;
+    position: absolute;
+    background-color: aliceblue;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+    left: -60px; /* Adjust this value to shift left */
+    top: 100%; /* Position below the icon */
+}
+
+.dropdown-content a, .dropdown-content button {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
+
+.dropdown-content a:hover, .dropdown-content button:hover {
+    background-color: #f1f1f1;
+}
+
+.show {
+    display: block;
+}
+</style>

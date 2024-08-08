@@ -1,0 +1,142 @@
+<% layout("/layout/boilerplate") -%>
+
+
+
+
+
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+        <symbol id="check-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </symbol>
+        <symbol id="info-fill" viewBox="0 0 16 16">
+          <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+        </symbol>
+        <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
+          <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </symbol>
+    </svg>
+
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2 small-warning-icon" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <div>
+            Ticket for a child below seven years will be half. If Two child than it will be alloted one seat.
+        </div>
+    </div>
+    <form id="confBooking" method="POST" action="/account/login/list/bookingPage" novalidate class="card needs-validation mt-3, mb-3" style="background-color: aliceblue; display: flex; align-items: center; align-content: center;">
+        <div class="row  mt-3, mb-3">
+            <h3 class="card-title col-md-3 mt-3">Passanger Details</h3>
+            <div class="card-body col-md-3 mb-3" >
+                <label for="child" class="form-label">Child</label>
+                <input id="child" type="number" class="form-control" name="child" placeholder="Enter number" min="0" max="5" style="width: 13rem;" required>
+                <div id="error" class="invalid-feedback"> Please enter number of children</div>
+            </div>
+
+            <div class="card-body col-md-3  mb-3" >
+                <label for="adult" class="form-label">Adult</label>
+                <input id="adult" type="number" class="form-control" name="adult" placeholder="Enter number" min="1" max="5" style="width: 13rem;" required>
+                <div id="error" class="invalid-feedback">Please enter number of adult</div>
+            </div>  
+
+            <div class="card-body col-md-3 mb-3">
+                <label for="adult" class="form-label">Availability</label>
+                <input id="numberOfSeats" type="number" class="form-control" name="seats" style="width: 13rem;" value="<%=  %>" readonly required>
+            </div>
+        </div>
+        <button id="button" class="btn btn-danger mb-3">Confirm Booking</button>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Function to parse query parameters
+
+            let data;
+            function getQueryParams() {
+                const params = {};
+                const queryString = window.location.search.substring(1);
+                const regex = /([^&=]+)=([^&]*)/g;
+                let m; let count = 1;
+                while (m = regex.exec(queryString)) {
+                    if(count == 1) {
+                        data = decodeURIComponent(m[2]);
+                    }
+                    const key = decodeURIComponent(m[1]);
+                    const value = decodeURIComponent(m[2]);
+                    console.log(key, value);
+                    params[key] = value;
+                    count++;
+                }
+                return params;
+            }
+
+            // Get query parameters
+            const queryParams = getQueryParams();
+
+            // Parse seats from query parameters
+            const seats = queryParams.seats || 0;
+            console.log(seats);
+            if(seats == 0){
+                const button = document.getElementById("button");
+                button.disabled = true;
+            }
+
+            // Set the value of the input field
+            const numberOfSeatsInput = document.getElementById("numberOfSeats");
+            if (numberOfSeatsInput) {
+                numberOfSeatsInput.value = seats;
+            }
+
+            const form = document.getElementById("confBooking");
+            form.addEventListener("submit", (event) => {
+                event.preventDefault();
+                console.log(typeof data)
+
+                const child = document.getElementById("child");
+                const adult = document.getElementById("adult");
+
+                let total = parseInt(adult.value) + Math.floor(parseInt(child.value) / 2);
+                console.log(total);
+                if(total > seats){
+                    const err = document.getElementById("error");
+                    err.textContent = "Error: The total number of passengers exceeds the available seats.";
+                    return;
+                }
+
+                const passengers = {
+                    child: child.value,
+                    adult: adult.value,
+                }
+
+                console.log(passengers);
+                console.log(data);
+
+                fetch("/account/login/list/bookingPage", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({passengers, data})
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(result => {
+                    if (result.success) {
+                        // Assuming redirectUrl is part of the response object
+                        
+                        window.location.href =  `${result.redirectUrl}?status=true`;
+                    } else {
+                        console.error('Failed to book:', result.message);
+                    }
+                })
+                .catch(err => {
+                    console.error('Error:', err);
+                });
+            });
+        });
+
+
+    </script>
+

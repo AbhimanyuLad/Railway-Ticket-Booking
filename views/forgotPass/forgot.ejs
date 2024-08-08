@@ -1,0 +1,17 @@
+<% layout("/layout/boilerplate.ejs") -%>
+
+
+    <div class="w-100 mt-3">
+        <div class="col-md-4 offset-md-4" >
+            <h2>Please be Alert</h2>
+            <form method="POST" action="/forgetPassword" novalidate class="needs-validation">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Please enter your Email associated with account</label>
+                    <input type="email" class="form-control" name="email" required >
+                    <div class="invalid-feedback">Please enter valid email</div>
+                </div>
+                <button class="btn btn-danger">Submit</button>
+            </form>
+        </div>
+    </div>
+
