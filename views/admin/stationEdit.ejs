@@ -130,8 +130,11 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-            }).then(response => response.json()).then(result => {
-                console.log(result);
+            })
+            .then(response => response.json())
+            .then(result => {
+                const redirectURL = result.redirectUrl;
+                window.location.href = redirectURL;
             }).catch(error => {
                 console.error('Error:', error);
         });
