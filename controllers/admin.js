@@ -192,10 +192,9 @@ module.exports.postStationEdit = async(req, res) => {
             for(i = 0; i < arrayOfArrays.length; i++) {
                 let inser = await Station.create({previousSt: arrayOfArrays[i][0],currentSt: arrayOfArrays[i][1], nextSt: arrayOfArrays[i][2]})
             }
-
-            const redirectUrl = "/admin/controller/stationEdit";
         }
-        res.json(redirectUrl);
+        const redirectUrl = "/admin/controller/stationEdit";
+        res.json({redirectUrl});
         
         function checkNoArrays(obj) {
             for (let key in obj) {
