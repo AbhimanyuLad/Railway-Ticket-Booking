@@ -133,8 +133,8 @@
             })
             .then(response => response.json())
             .then(result => {
-                const redirectURL = result.redirectUrl;
-                window.location.href = redirectURL;
+                //const redirectURL = result.redirectUrl;
+                window.location.href =  window.location.href;
             }).catch(error => {
                 console.error('Error:', error);
         });
