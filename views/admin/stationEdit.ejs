@@ -3,8 +3,8 @@
 
 
 
-    <h4 class="mt-3">Edit Station</h4>
-        <form id="stationFrom" method="POST" action="/admin/editlisting/stationEdit" novalidate class="card needs-validation mt-3 mb-3" style="  background-color: aliceblue;">
+<h4 class="mt-3">Edit Station</h4>
+        <form id="stationFrom" method="POST" action="" novalidate class="card needs-validation mt-3 mb-3" style="  background-color: aliceblue;">
                 <div class="form-group col-md-3 mb-3 mt-3">
                     <label for="previous" class="form-label">Previous Station</label>
                     <input id="previousSt" name="previousSt" placeholder="Previous Station" type="text" class="form-control" required>
@@ -30,99 +30,112 @@
         </form>
 
 <script>
-    document.getElementById('addOne').addEventListener('click', function() {
+    const addOne = document.getElementById("addOne");
+    addOne.addEventListener('click', function() {
         //const prev = document.getElementsByName("previousSt").value;
-        const curr = document.getElementById("station").value;
-        const next = document.getElementById("nextSt").value;
-    // Create a new form row
-    const formRow = document.createElement('div');
-    formRow.classList.add('row');
+        let curr = document.getElementById("station").value;
+        let next = document.getElementById("nextSt").value;
+        // Create a new form row
+        const formRow = document.createElement('div');
+        formRow.classList.add('row');
 
-    // Previous Station
-    const previousStationDiv = document.createElement('div');
-    previousStationDiv.classList.add('form-group', 'col-md-3', 'mb-3', 'mt-3');
-    const previousStationLabel = document.createElement('label');
-    previousStationLabel.setAttribute('for', 'previousStation');
-    previousStationLabel.textContent = 'Previous Station';
-    const previousStationInput = document.createElement('input');
-    previousStationInput.setAttribute('type', 'text');
-    previousStationInput.setAttribute('name', 'previousSt');
-    //previousStationInput.setAttribute('placeholder', 'Previous Station');
-    previousStationInput.classList.add('form-control');
-    previousStationInput.setAttribute('required', true);
-    previousStationInput.value = curr;
-    previousStationDiv.appendChild(previousStationLabel);
-    previousStationDiv.appendChild(previousStationInput);
+        // Previous Station
+        const previousStationDiv = document.createElement('div');
+        previousStationDiv.classList.add('form-group', 'col-md-3', 'mb-3', 'mt-3');
+        const previousStationLabel = document.createElement('label');
+        previousStationLabel.setAttribute('for', 'previousStation');
+        previousStationLabel.textContent = 'Previous Station';
+        const previousStationInput = document.createElement('input');
+        previousStationInput.setAttribute('type', 'text');
+        previousStationInput.setAttribute('name', 'previousSt');
+        previousStationInput.setAttribute('id', 'previousSt');
+        //previousStationInput.setAttribute('placeholder', 'Previous Station');
+        previousStationInput.classList.add('form-control');
+        previousStationInput.setAttribute('required', true);
+        previousStationInput.value = curr;
+        previousStationDiv.appendChild(previousStationLabel);
+        previousStationDiv.appendChild(previousStationInput);
 
-    // Current Station
-    const currentStationDiv = document.createElement('div');
-    currentStationDiv.classList.add('form-group', 'col-md-3', 'mb-3', 'mt-3');
-    const currentStationLabel = document.createElement('label');
-    currentStationLabel.setAttribute('for', 'stationName');
-    currentStationLabel.textContent = 'Station Name';
-    const currentStationInput = document.createElement('input');
-    currentStationInput.setAttribute('type', 'text');
-    currentStationInput.setAttribute('name', 'station');
-    //currentStationInput.setAttribute('placeholder', 'Current Station');
-    currentStationInput.classList.add('form-control');
-    currentStationInput.setAttribute('required', true);
-    currentStationInput.value = next;
-    currentStationDiv.appendChild(currentStationLabel);
-    currentStationDiv.appendChild(currentStationInput);
+        // Current Station
+        const currentStationDiv = document.createElement('div');
+        currentStationDiv.classList.add('form-group', 'col-md-3', 'mb-3', 'mt-3');
+        const currentStationLabel = document.createElement('label');
+        currentStationLabel.setAttribute('for', 'stationName');
+        currentStationLabel.textContent = 'Station Name';
+        const currentStationInput = document.createElement('input');
+        currentStationInput.setAttribute('type', 'text');
+        currentStationInput.setAttribute('name', 'station');
+        currentStationInput.setAttribute('id', 'station');
+        //currentStationInput.setAttribute('placeholder', 'Current Station');
+        currentStationInput.classList.add('form-control');
+        currentStationInput.setAttribute('required', true);
+        currentStationInput.value = next;
+        currentStationDiv.appendChild(currentStationLabel);
+        currentStationDiv.appendChild(currentStationInput);
 
-    // Next Station
-    const nextStationDiv = document.createElement('div');
-    nextStationDiv.classList.add('form-group', 'col-md-3', 'mb-3', 'mt-3');
-    const nextStationLabel = document.createElement('label');
-    nextStationLabel.setAttribute('for', 'nextStation');
-    nextStationLabel.textContent = 'Next Station';
-    const nextStationInput = document.createElement('input');
-    nextStationInput.setAttribute('type', 'text');
-    nextStationInput.setAttribute('name', 'nextSt');
-    nextStationInput.setAttribute('placeholder', 'Next Station');
-    nextStationInput.classList.add('form-control');
-    nextStationInput.setAttribute('required', true);
-    nextStationDiv.appendChild(nextStationLabel);
-    nextStationDiv.appendChild(nextStationInput);
+        // Next Station
+        const nextStationDiv = document.createElement('div');
+        nextStationDiv.classList.add('form-group', 'col-md-3', 'mb-3', 'mt-3');
+        const nextStationLabel = document.createElement('label');
+        nextStationLabel.setAttribute('for', 'nextStation');
+        nextStationLabel.textContent = 'Next Station';
+        const nextStationInput = document.createElement('input');
+        nextStationInput.setAttribute('type', 'text');
+        nextStationInput.setAttribute('name', 'nextSt');
+        nextStationInput.setAttribute('id', 'nextSt');
+        nextStationInput.setAttribute('placeholder', 'Next Station');
+        nextStationInput.classList.add('form-control');
+        nextStationInput.setAttribute('required', true);
+        nextStationDiv.appendChild(nextStationLabel);
+        nextStationDiv.appendChild(nextStationInput);
 
-    // Delete Button
-    const deleteDiv = document.createElement('div');
-    deleteDiv.classList.add('form-group', 'col-md-3', 'mb-3', 'mt-3', 'd-flex', 'align-items-center');
-    const deleteButton = document.createElement('button');
-    deleteButton.setAttribute('type', 'button');
-    deleteButton.classList.add('btn', 'btn-danger');
-    deleteButton.textContent = 'Delete';
-    deleteButton.onclick = function() {
-        formRow.remove();
-    };
-    deleteDiv.appendChild(deleteButton);
+        // Delete Button
+        const deleteDiv = document.createElement('div');
+        deleteDiv.classList.add('form-group', 'col-md-3', 'mb-3', 'mt-3', 'd-flex', 'align-items-center');
+        const deleteButton = document.createElement('button');
+        deleteButton.setAttribute('type', 'button');
+        deleteButton.classList.add('btn', 'btn-danger');
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = function() {
+            formRow.remove();
+        };
+        deleteDiv.appendChild(deleteButton);
 
-    // Append all new form elements to the form row
-    formRow.appendChild(previousStationDiv);
-    formRow.appendChild(currentStationDiv);
-    formRow.appendChild(nextStationDiv);
-    formRow.appendChild(deleteDiv);
+        // Append all new form elements to the form row
+        formRow.appendChild(previousStationDiv);
+        formRow.appendChild(currentStationDiv);
+        formRow.appendChild(nextStationDiv);
+        formRow.appendChild(deleteDiv);
 
-    // Append the new form row to the additional fields container
-    document.getElementById('additionalFields').appendChild(formRow);
+        // Append the new form row to the additional fields container
+        document.getElementById('additionalFields').appendChild(formRow);
+         // Update variables to hold the latest values
+    
+        
+    });
 
     document.getElementById('stationForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
-    fetch("/admin/editlisting/stationEdit", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-        }).then(response => response.json()).then(result => {
-            console.log(result);
-        }).catch(error => {
-            console.error('Error:', error);
+        const data = Array.from(document.querySelectorAll('#additionalFields .row')).map(row => {
+            const prev = row.querySelector("input[name='previousSt']").value;
+            const curr = row.querySelector("input[name='station']").value;
+            const next = row.querySelector("input[name='nextSt']").value;
+            return { prev, curr, next };
+        });
+
+        fetch("/admin/controller/stationEdit", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+            }).then(response => response.json()).then(result => {
+                console.log(result);
+            }).catch(error => {
+                console.error('Error:', error);
         });
     });
-});
-
 
 
 </script>
